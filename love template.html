@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>I Love YOU Forever</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    
+    <audio id="bgMusic" loop>
+    <source src="muzik.mp3" type="audio/mpeg">
+</audio>
+
+<div id="music-controls" onclick="toggleMusic()">
+    <span id="music-icon">🎵</span>
+    <span id="music-text">Müziği Başlat</span>
+</div>
+<div id="personal-photo"></div>
+
+    <style>
+
+        /* --- GİRİŞ EKRANI STİLLERİ --- */
+        #entry-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            cursor: pointer;
+        }
+
+        .stitch-container {
+            width: 300px;
+            height: 300px;
+            background-image: url('stitch.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        #entry-screen p {
+            color: white;
+            font-family: sans-serif;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* --- SENİN MEVCUT SİTE STİLLERİN (DEĞİŞTİRİLMEDİ) --- */
+        body {
+            background: #000000;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        .quick-link {
+            position: fixed;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            z-index: 999;
+            background: #030101;
+            border-radius: 50%;
+            padding: 1px;
+            text-align: center;
+            color: #ddd;
+            text-decoration: none;
+            line-height: 35px;
+            font-size: 13px;
+            user-select: none;
+        }
+        .quick-link:nth-of-type(1) { top: 10%; }
+        .quick-link:nth-of-type(2) { top: 4%;  z-index: 998; }
+        .quick-link:nth-of-type(3) { top: 16%; z-index: 997; }
+        .quick-link:nth-of-type(4) { top: 22%; z-index: 996; }
+
+        #ui .love {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -250px 0 0 -300px;
+            --i: 1;
+        }
+        #ui .love:last-child .love_word {
+            color: #fff;
+            font-size: 2rem;
+            text-shadow: 0 0 10px #ff0101;
+        }
+        #ui .love:last-child .love_word {
+            color: #e10909;
+            font-size: 1.4rem;
+            text-shadow: 0 0 10px #fff;
+        }
+
+        #ui .love_word {
+            color: #ea0202;
+            font-size: 1.4rem;
+            transform: translateY(-100%) rotateZ(-30deg);
+            text-shadow: 0 0 10px #fff;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+        #ui .love_horizontal {
+            animation: horizontal 10000ms infinite alternate ease-in-out;
+            animation-delay: calc(var(--i) * -300ms);
+        }
+        #ui .love_vertical {
+            animation: vertical 20000ms infinite linear;
+            animation-delay: calc(var(--i) * -300ms);
+        }
+
+        @keyframes horizontal {
+            from { transform: translateX(0px); }
+            to   { transform: translateX(450px); }
+        }
+        @keyframes vertical {
+            0%   { transform: translateY(180px); }
+            10%  { transform: translateY(45px); }
+            15%  { transform: translateY(4.5px); }
+            18%  { transform: translateY(0px); }
+            20%  { transform: translateY(4.5px); }
+            22%  { transform: translateY(34.61538px); }
+            24%  { transform: translateY(64.28571px); }
+            25%  { transform: translateY(112.5px); }
+            26%  { transform: translateY(64.28571px); }
+            28%  { transform: translateY(34.61538px); }
+            30%  { transform: translateY(4.5px); }
+            32%  { transform: translateY(0px); }
+            35%  { transform: translateY(4.5px); }
+            40%  { transform: translateY(45px); }
+            50%  { transform: translateY(180px); }
+            71%  { transform: translateY(428.57143px); }
+            72.5%{ transform: translateY(441.17647px); }
+            75%  { transform: translateY(450px); }
+            77.5%{ transform: translateY(441.17647px); }
+            79%  { transform: translateY(428.57143px); }
+            100% { transform: translateY(180px); }
+        }
+
+        canvas {
+            background-color:#312;
+        }
+        #music-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; 
+    background: rgba(234, 2, 2, 0.2); 
+    border: 1px solid #ea0202;
+    padding: 10px 15px;
+    border-radius: 50px;
+    color: white;
+    cursor: pointer;
+    z-index: 10001;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+#music-controls:hover {
+    background: rgba(234, 2, 2, 0.5);
+    box-shadow: 0 0 15px #ea0202;
+}
+
+#music-icon {
+    font-size: 18px;
+}
+#personal-photo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px; 
+    height: 250px; 
+    background-image: url('fotograf.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; 
+    border: 3px solid #ea0202;
+    box-shadow: 0 0 20px #ea0202;
+    z-index: 1; 
+    display: none; 
+}
+    </style>
+</head>
+<body>
+
+    <div id="entry-screen" onclick="handleStart()">
+        <div class="stitch-container"></div>
+        <p>GİRİŞ YAPMAK İÇİN TIKLA ❤️</p>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="muzik.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="ui"></div>
+
+    <div>
+        <canvas id="testCanvas" width="550" height="500"></canvas>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1524180/codepen-template-1.0.js"></script>
+
+    <script>
+        // Giriş ve Başlatma Fonksiyonu
+        function handleStart() {
+            document.getElementById('bgMusic').play();
+            document.getElementById('entry-screen').style.display = 'none';
+            document.getElementById('personal-photo').style.display = 'block'; // Fotoğrafı görünür yapar
+            init(); 
+        }
+
+        // SENİN MEVCUT JS KODUN
+        const N = 100;
+        const ui = document.getElementById('ui');
+
+        for (let i = 1; i <= N; i++) {
+            const love = document.createElement('div');
+            love.className = 'love';
+            love.style.setProperty('--i', i);
+
+            const h = document.createElement('div');
+            h.className = 'love_horizontal';
+
+            const v = document.createElement('div');
+            v.className = 'love_vertical';
+
+            const word = document.createElement('div');
+            word.className = 'love_word';
+            word.textContent = 'I love you';
+
+            v.appendChild(word);
+            h.appendChild(v);
+            love.appendChild(h);
+            ui.appendChild(love);
+        }
+
+        var canvas;
+        var stage;
+        var container;
+        var captureContainers;
+        var captureIndex;
+
+        function init() {
+            canvas = document.getElementById("testCanvas");
+            stage = new createjs.Stage(canvas);
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            var w = canvas.width;
+            var h = canvas.height;
+
+            container = new createjs.Container();
+            stage.addChild(container);
+
+            captureContainers = [];
+            captureIndex = 0;
+
+            for (var i = 0; i < 100; i++) {
+                var heart = new createjs.Shape();
+                heart.graphics.beginFill(createjs.Graphics.getHSL(Math.random() * 30 - 45, 100, 50 + Math.random() * 30));
+                heart.graphics.moveTo(0, -12).curveTo(1, -20, 8, -20).curveTo(16, -20, 16, -10).curveTo(16, 0, 0, 12);
+                heart.graphics.curveTo(-16, 0, -16, -10).curveTo(-16, -20, -8, -20).curveTo(-1, -20, 0, -12);
+                heart.y = -100;
+                container.addChild(heart);
+            }
+
+            for (i = 0; i < 100; i++) {
+                var captureContainer = new createjs.Container();
+                captureContainer.cache(0, 0, w, h);
+                captureContainers.push(captureContainer);
+            }
+
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+            createjs.Ticker.on("tick", tick);
+        }
+
+        function tick(event) {
+            var w = canvas.width;
+            var h = canvas.height;
+            var l = container.numChildren;
+
+            captureIndex = (captureIndex + 1) % captureContainers.length;
+            stage.removeChildAt(0);
+            var captureContainer = captureContainers[captureIndex];
+            stage.addChildAt(captureContainer, 0);
+            captureContainer.addChild(container);
+
+            for (var i = 0; i < l; i++) {
+                var heart = container.getChildAt(i);
+                if (heart.y < -50) {
+                    heart._x = Math.random() * w;
+                    heart.y = h * (1 + Math.random()) + 50;
+                    heart.perX = (1 + Math.random() * 2) * h;
+                    heart.offX = Math.random() * h;
+                    heart.ampX = heart.perX * 0.1 * (0.15 + Math.random());
+                    heart.velY = -Math.random() * 2 - 1;
+                    heart.scale = Math.random() * 2 + 1;
+                    heart._rotation = Math.random() * 40 - 20;
+                    heart.alpha = Math.random() * 0.75 + 0.05;
+                    heart.compositeOperation = Math.random() < 0.33 ? "lighter" : "source-over";
+                }
+                var int = (heart.offX + heart.y) / heart.perX * Math.PI * 2;
+                heart.y += heart.velY * heart.scaleX / 2;
+                heart.x = heart._x + Math.cos(int) * heart.ampX;
+                heart.rotation = heart._rotation + Math.sin(int) * 30;
+            }
+            captureContainer.updateCache("source-over");
+            stage.update(event);
+        }
+
+        function toggleMusic() {
+            var audio = document.getElementById("bgMusic");
+            var btnText = document.getElementById("music-text");
+            var btnIcon = document.getElementById("music-icon");
+
+            if (audio.paused) {
+                audio.play();
+                btnText.innerText = "Müziği Durdur";
+                btnIcon.innerText = "⏸️"; 
+            } else {
+                audio.pause();
+                btnText.innerText = "Müziği Başlat";
+                btnIcon.innerText = "🎵"; 
+            }
+        }
+    </script>
+</body>
+</html>
